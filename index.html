@@ -2072,47 +2072,301 @@
   .magnetic { transition: transform .35s cubic-bezier(.7,0,.3,1); }
 
   /* mobile */
+  /* === ПЛАНШЕТ И МОБИЛКА (≤ 980px) === */
   @media (max-width: 980px) {
     body { cursor: auto; }
     .cursor-dot, .cursor-ring { display: none; }
+    button, input, select, a, .magnetic { cursor: pointer !important; }
+
     nav { padding: 14px 20px; }
     .nav-tag, .nav-divider, .nav-status { display: none; }
     .nav-links { display: none; }
-    .hero { grid-template-columns: 1fr; padding: 110px 20px 60px; gap: 40px; }
-    .hero-visual { height: 420px; }
-    .hero-product { width: 280px; }
+    .nav-cta { padding: 10px 18px; font-size: 12px; }
+    .nav-logo { height: 26px; }
+
+    .hero {
+      grid-template-columns: 1fr;
+      padding: 110px 20px 50px;
+      gap: 36px;
+    }
+    .hero h1 { font-size: clamp(38px, 9vw, 64px); margin-bottom: 24px; }
+    .hero h1 .stamp-kz { font-size: 0.32em; }
+    .hero-sub { font-size: 16px; margin-bottom: 32px; }
+    .hero-ctas { gap: 10px; margin-bottom: 36px; }
+    .btn { padding: 14px 22px; font-size: 13px; }
+    .hero-visual { height: 380px; max-width: 100%; }
+    .hero-product { width: 260px; }
     .hero-bignum { font-size: 200px; }
-    .hero-orbit { width: 320px; height: 320px; }
-    .hero-orbit-2 { width: 240px; height: 240px; }
-    .hero-trustbar { gap: 20px; }
-    section { padding: 80px 20px; }
+    .hero-orbit { width: 320px; height: 320px; margin: -160px 0 0 -160px; }
+    .hero-orbit-2 { width: 240px; height: 240px; margin: -120px 0 0 -120px; }
+    .hero-items span { font-size: 28px; }
+    @keyframes orbitMove {
+      from { transform: translate(-50%, -50%) rotate(0deg)   translateY(-160px) rotate(0deg); }
+      to   { transform: translate(-50%, -50%) rotate(360deg) translateY(-160px) rotate(-360deg); }
+    }
+    .hero-chip { font-size: 11px; padding: 8px 12px 8px 8px; }
+    .hero-chip .ico { width: 18px; height: 18px; font-size: 10px; }
+    .hero-trustbar { gap: 18px; padding-top: 24px; flex-wrap: wrap; }
+    .trustbar-item .v { font-size: 22px; }
+
+    .marquee-track { font-size: 18px; gap: 36px; }
+    .marquee-track .star { width: 22px; height: 22px; font-size: 14px; }
+
+    section { padding: 70px 20px; }
+    .section-h { font-size: clamp(30px, 6.5vw, 48px); margin-bottom: 40px; }
+    .section-meta { font-size: 12px; }
+    .section-meta .num { font-size: 16px; padding: 3px 10px; }
+
+    .stats-section { padding-bottom: 40px; }
     .stats-grid { grid-template-columns: 1fr 1fr; }
-    .stat { border-bottom: 1px solid var(--line); padding-right: 16px; }
+    .stat {
+      border-bottom: 1px solid var(--line);
+      padding: 32px 14px 26px 0;
+    }
     .stat:nth-child(2n) { border-right: none; }
-    .stat:nth-child(5) { border-right: none; }
-    .brand { margin: 30px 14px; padding: 60px 28px; border-radius: 22px; }
-    .brand-grid { grid-template-columns: 1fr; gap: 40px; }
-    .production { grid-template-columns: 1fr; gap: 40px; }
+    .stat:nth-child(5) { border-right: none; grid-column: 1 / -1; }
+    .stat-num { font-size: 48px; padding: 0 8px; }
+    .stat-cap { padding: 0 8px; margin-bottom: 18px; }
+    .stat-label { padding: 0 8px; font-size: 13px; }
+    .stat-foot { padding: 8px 8px 0; }
+
+    .brand { margin: 30px 14px; padding: 60px 24px; border-radius: 22px; }
+    .brand-grid { grid-template-columns: 1fr; gap: 36px; }
+    .brand-text p { font-size: 15px; }
+    .brand-text .quote { font-size: 20px; padding: 18px 20px; }
+    .brand-side { padding: 24px; }
+    .bsc-num { font-size: 36px; }
+
+    /* Таймлайн на мобилке — вертикальный, не горизонтальный */
+    .timeline-h-wrap { margin-top: 60px; padding-top: 40px; }
+    .timeline-h-title { font-size: 24px; }
+    .timeline-h-counter { font-size: 13px; }
+    .timeline-h-counter em { font-size: 22px; }
+    .timeline-track {
+      grid-template-columns: 1fr;
+      gap: 6px;
+    }
+    .timeline-track::before, .timeline-track::after { display: none; }
+    .tl-step {
+      padding: 18px 16px 18px 60px;
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      position: relative;
+    }
+    .tl-step .tl-marker { top: 18px; left: 14px; width: 32px; height: 32px; font-size: 14px; }
+    .tl-step .tl-marker { background: var(--paper) !important; }
+    .tl-year { font-size: 28px; margin-bottom: 4px; }
+    .tl-headline { font-size: 13px; }
+    .tl-text { font-size: 12px; }
+    .tl-tag { margin-top: 8px; }
+
+    .production { grid-template-columns: 1fr; gap: 32px; }
+    .production-text p { font-size: 15px; }
     .factories { grid-template-columns: 1fr; }
-    .factory:nth-child(1) { border-radius: 16px 16px 0 0; border-right: 1px solid var(--line); border-bottom: none; }
+    .factory { padding: 24px; }
+    .factory:nth-child(1) {
+      border-radius: 16px 16px 0 0;
+      border-right: 1px solid var(--line);
+      border-bottom: none;
+    }
     .factory:nth-child(2) { border-radius: 0 0 16px 16px; }
-    .factory:nth-child(3) { grid-template-columns: 1fr; gap: 16px; }
-    .halal-grid { grid-template-columns: 1fr; gap: 40px; }
-    .halal-emblem-wrap { position: relative; top: 0; max-width: 280px; margin: 0 auto; }
-    .map-stage { grid-template-columns: 1fr; }
-    .map-canvas { padding: 20px; }
-    .map-canvas-title .title { font-size: 16px; }
+    .factory:nth-child(3) {
+      grid-template-columns: 1fr;
+      gap: 14px;
+      padding: 22px 24px;
+    }
+    .factory:nth-child(3) > div[style*="text-align: right"] { text-align: left !important; }
+    .factory-cap { font-size: 48px; }
+    .factory.tot .factory-cap { font-size: 32px; }
+
+    .halal { padding: 90px 20px; }
+    .halal-grid { grid-template-columns: 1fr; gap: 60px; }
+    .halal-emblem-wrap {
+      position: relative;
+      top: 0;
+      max-width: 260px;
+      margin: 0 auto;
+    }
+    .halal-arabic { font-size: 64px; margin-bottom: 8px; }
+    .halal-word { font-size: 26px; }
+    .halal-saso { font-size: 9px; }
+    .halal-stamp { font-size: 9px; padding: 6px 10px; top: -6px; right: -4px; }
+    .halal-cred { font-size: 9px; padding: 5px 10px; }
+    .halal-list-wrap .halal-intro { font-size: 18px; margin-bottom: 30px; }
+    .halal-list li {
+      grid-template-columns: 44px 1fr auto;
+      gap: 16px;
+      padding: 18px;
+    }
+    .halal-num { width: 36px; height: 36px; font-size: 15px; }
+    .halal-h { font-size: 16px; }
+    .halal-p { font-size: 13px; }
+
+    .map-wrap { padding: 90px 20px; }
+    .map-stage { grid-template-columns: 1fr; gap: 16px; }
+    .map-canvas { padding: 18px; }
+    .map-canvas-title { top: 14px; left: 18px; }
+    .map-canvas-title .title { font-size: 14px; }
+    .map-canvas-title .sub { font-size: 9px; }
     .compass, .map-coord { display: none; }
-    .map-info { min-height: auto; }
-    .map-quote { font-size: 18px; padding: 20px 24px; }
-    .contact-grid { grid-template-columns: 1fr; gap: 50px; }
-    .form-card { padding: 28px; }
-    .form-row { grid-template-columns: 1fr; gap: 0; }
-    .footer-mega-logo { height: 60px; }
-    .footer-grid { grid-template-columns: 1fr 1fr; gap: 40px; }
-    .footer-bottom { flex-direction: column; gap: 12px; }
-    button, input, select, a { cursor: pointer !important; }
+    .kz-label { font-size: 10px; font-weight: 700; }
+    .map-info { min-height: auto; padding: 26px; }
+    .info-name { font-size: 26px; }
+    .map-head { gap: 24px; margin-bottom: 30px; }
+    .map-intro { font-size: 17px; }
+    .map-legend { font-size: 11px; gap: 14px; padding: 10px 14px; }
+    .map-quote { font-size: 17px; padding: 20px 22px; margin-top: 40px; }
+
+    .contact-section { padding: 90px 20px; }
+    .contact-grid { grid-template-columns: 1fr; gap: 40px; }
+    .form-row { grid-template-columns: 1fr; gap: 0; margin-bottom: 0; }
+    .form-field input, .form-field select { height: 50px; font-size: 16px; }
+
+    .footer-mega { gap: 16px; margin-bottom: 50px; }
+    .footer-mega-logo { height: 50px; }
+    .footer-mega-text { font-size: clamp(40px, 12vw, 80px); }
+    .footer-grid { grid-template-columns: 1fr 1fr; gap: 30px; padding-top: 40px; }
+    .footer-bottom { flex-direction: column; gap: 12px; text-align: center; }
   }
+
+  /* === ТЕЛЕФОН (≤ 560px) === */
+  @media (max-width: 560px) {
+    .hero { padding: 100px 18px 40px; }
+    .hero h1 { font-size: clamp(34px, 11vw, 52px); }
+    .hero-meta { font-size: 11px; }
+    .hero-sub { font-size: 15px; }
+    .hero-visual { height: 320px; }
+    .hero-product { width: 220px; }
+    .hero-bignum { font-size: 160px; }
+    .hero-orbit { width: 280px; height: 280px; margin: -140px 0 0 -140px; }
+    .hero-orbit-2 { width: 200px; height: 200px; margin: -100px 0 0 -100px; }
+    .hero-items span { font-size: 24px; }
+    @keyframes orbitMove {
+      from { transform: translate(-50%, -50%) rotate(0deg)   translateY(-140px) rotate(0deg); }
+      to   { transform: translate(-50%, -50%) rotate(360deg) translateY(-140px) rotate(-360deg); }
+    }
+    .hero-trustbar {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+    .trustbar-divider { display: none; }
+
+    .stats-grid { grid-template-columns: 1fr; }
+    .stat:nth-child(odd) { border-right: none; }
+    .stat:nth-child(5) { grid-column: auto; }
+    .stat-num { font-size: 56px; }
+
+    .brand { margin: 24px 12px; padding: 50px 20px; border-radius: 20px; }
+    .brand-stat-grid { grid-template-columns: 1fr 1fr; }
+
+    .factory { padding: 22px; }
+    .factory-name { font-size: 18px; }
+
+    .halal-list li {
+      grid-template-columns: 40px 1fr;
+      gap: 12px;
+    }
+    .halal-list li .halal-check { display: none; }
+
+    .footer-grid { grid-template-columns: 1fr; gap: 26px; }
+  }
+
+  /* === Touch-устройства: тап-фидбэк === */
+  @media (hover: none) {
+    body { cursor: auto !important; }
+    .cursor-dot, .cursor-ring { display: none !important; }
+
+    .stat:active,
+    .factory:active,
+    .brand-tag:active,
+    .brand-stat-card:active,
+    .tl-step:active,
+    .halal-list li:active,
+    .promise-row:active {
+      transform: scale(0.98);
+      transition: transform .15s ease-out;
+    }
+
+    /* «Подсветка» при свайпе/прокрутке — JS добавляет .lit */
+    .stat.lit { padding-top: 30px; }
+    .stat:nth-child(1).lit { background: var(--blue); color: var(--bg); }
+    .stat:nth-child(2).lit { background: var(--red); color: var(--bg); }
+    .stat:nth-child(3).lit { background: var(--ink); color: var(--bg); }
+    .stat:nth-child(4).lit { background: var(--green); color: var(--bg); }
+    .stat:nth-child(5).lit { background: var(--orange); color: var(--bg); }
+    .stat.lit .stat-num,
+    .stat.lit .stat-label,
+    .stat.lit .stat-foot,
+    .stat.lit .stat-cap-l,
+    .stat.lit .stat-cap-r { color: var(--bg); }
+    .stat.lit .stat-num em { color: var(--yellow); }
+    .stat.lit .stat-num .small { color: rgba(255,255,255,0.65); }
+    .stat.lit .stat-foot { border-color: rgba(255,255,255,0.25); }
+
+    .brand-stat-card.lit { transform: translateY(-4px); }
+    .brand-stat-card:nth-child(1).lit { background: var(--red); color: white; border-color: var(--red); }
+    .brand-stat-card:nth-child(2).lit { background: var(--blue); color: white; border-color: var(--blue); }
+    .brand-stat-card:nth-child(3).lit { background: var(--yellow); color: var(--ink); border-color: var(--yellow); }
+    .brand-stat-card:nth-child(4).lit { background: var(--green); color: white; border-color: var(--green); }
+    .brand-stat-card.lit .bsc-label { color: inherit; opacity: 0.75; }
+    .brand-stat-card.lit .bsc-num em { color: inherit; }
+
+    .brand-tag.lit { transform: translateY(-3px) scale(1.05); color: white; }
+    .brand-tag:nth-child(1).lit { background: var(--red);    border-color: var(--red); }
+    .brand-tag:nth-child(2).lit { background: var(--yellow); border-color: var(--yellow); color: var(--ink); }
+    .brand-tag:nth-child(3).lit { background: var(--blue);   border-color: var(--blue); }
+    .brand-tag:nth-child(4).lit { background: var(--green);  border-color: var(--green); }
+    .brand-tag:nth-child(5).lit { background: var(--orange); border-color: var(--orange); }
+
+    .tl-step.lit { transform: translateY(-6px); }
+    .tl-step:nth-child(1).lit .tl-marker { background: var(--red); transform: scale(1.2) rotate(-8deg); }
+    .tl-step:nth-child(2).lit .tl-marker { background: var(--orange); transform: scale(1.2) rotate(-8deg); }
+    .tl-step:nth-child(3).lit .tl-marker { background: var(--yellow-deep); transform: scale(1.2) rotate(-8deg); }
+    .tl-step:nth-child(4).lit .tl-marker { background: var(--blue); transform: scale(1.2) rotate(-8deg); }
+    .tl-step:nth-child(5).lit .tl-marker { background: var(--green); transform: scale(1.2) rotate(-8deg); }
+
+    .halal-list li.lit {
+      border-color: var(--green);
+      transform: translateY(-3px);
+      box-shadow: 0 14px 30px rgba(47,122,60,0.18);
+    }
+    .halal-list li.lit .halal-num {
+      background: var(--green);
+      color: white;
+      transform: rotate(-8deg) scale(1.1);
+    }
+    .halal-list li.lit .halal-check {
+      opacity: 1;
+      transform: rotate(360deg);
+    }
+
+    .factory.lit {
+      border-color: var(--blue);
+      transform: translateY(-3px);
+      box-shadow: 0 16px 36px rgba(0,170,229,0.18);
+    }
+    .factory:nth-child(2).lit {
+      border-color: var(--green);
+      box-shadow: 0 16px 36px rgba(47,122,60,0.18);
+    }
+  }
+
+  /* === Стаггерд reveal внутренних карточек === */
+  .stagger > * {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity .8s cubic-bezier(.7,0,.3,1), transform .8s cubic-bezier(.7,0,.3,1);
+  }
+  .stagger.in > * { opacity: 1; transform: translateY(0); }
+  .stagger.in > *:nth-child(1) { transition-delay: 0s; }
+  .stagger.in > *:nth-child(2) { transition-delay: .08s; }
+  .stagger.in > *:nth-child(3) { transition-delay: .16s; }
+  .stagger.in > *:nth-child(4) { transition-delay: .24s; }
+  .stagger.in > *:nth-child(5) { transition-delay: .32s; }
+  .stagger.in > *:nth-child(6) { transition-delay: .40s; }
+  .stagger.in > *:nth-child(7) { transition-delay: .48s; }
 </style>
 </head>
 <body>
@@ -2241,7 +2495,7 @@
     <span class="split-line"><span style="--d:0.15s" class="quiet">Локальная возможность.</span></span>
   </h2>
 
-  <div class="stats-grid">
+  <div class="stats-grid stagger" data-cycle>
     <div class="stat">
       <div class="stat-cap">
         <span class="stat-cap-l">Масштаб</span>
@@ -2308,7 +2562,7 @@
       <p><strong>Mi&nbsp;Goreng</strong> — это уникальный формат жареной (а&nbsp;не&nbsp;супной) лапши быстрого приготовления, который буквально создал новую категорию. И&nbsp;<strong>впервые официально приходит в&nbsp;Казахстан.</strong></p>
       <p>В&nbsp;Нигерии Indomie&nbsp;— национальный продукт. В&nbsp;Австралии&nbsp;— топ&nbsp;импорта. В&nbsp;США&nbsp;— culture-cult бренд для&nbsp;поколения&nbsp;Z. В&nbsp;Казахстане ему ещё только предстоит занять полки.</p>
       <div class="quote">«Indomie&nbsp;— это не&nbsp;еда. Это эмоция, которую помнят с&nbsp;детства. И&nbsp;именно поэтому он&nbsp;продаётся в&nbsp;19&nbsp;млрд экземпляров в&nbsp;год.»</div>
-      <div class="brand-tags">
+      <div class="brand-tags stagger" data-cycle>
         <span class="brand-tag fill">Est. 1972</span>
         <span class="brand-tag">Indofood Group</span>
         <span class="brand-tag">Mi Goreng</span>
@@ -2318,7 +2572,7 @@
     </div>
     <div class="brand-side">
       <h4>Бренд в цифрах</h4>
-      <div class="brand-stat-grid">
+      <div class="brand-stat-grid stagger" data-cycle>
         <div class="brand-stat-card">
           <div class="bsc-num"><em>19</em><span class="small"> млрд</span></div>
           <div class="bsc-label">пачек в&nbsp;год</div>
@@ -2345,7 +2599,7 @@
       <div class="timeline-h-title">Путь длиной в&nbsp;<em>54&nbsp;года</em></div>
       <div class="timeline-h-counter"><em>5</em>&nbsp;поворотных моментов · от&nbsp;Джакарты до&nbsp;Алматы</div>
     </div>
-    <div class="timeline-track">
+    <div class="timeline-track stagger" data-cycle>
       <div class="tl-step">
         <div class="tl-marker"><span class="tl-emoji">🇮🇩</span></div>
         <div class="tl-year">1972</div>
@@ -2403,7 +2657,7 @@
       <p>Продукт, поставляемый в&nbsp;Казахстан, производится на&nbsp;заводах <strong>PAFL в&nbsp;Саудовской Аравии</strong> — крупнейших по&nbsp;мощности в&nbsp;регионе MENA.</p>
       <p>Это означает международные стандарты качества, государственный халяль-контроль КСА и&nbsp;логистическую близость для&nbsp;стабильных поставок в&nbsp;Центральную Азию без&nbsp;разрывов цепи.</p>
     </div>
-    <div class="factories">
+    <div class="factories stagger" data-cycle>
       <div class="factory">
         <div class="factory-loc"><span class="pin">●</span> Джидда · Jeddah</div>
         <div class="factory-name">Завод <em>«Western»</em></div>
@@ -2472,7 +2726,7 @@
 
     <div class="halal-list-wrap">
       <p class="halal-intro">Производство в&nbsp;Саудовской Аравии означает самый строгий халяль-контроль в&nbsp;мире — на&nbsp;уровне государственного стандарта, а&nbsp;не&nbsp;маркетинговой наклейки.</p>
-      <ul class="halal-list">
+      <ul class="halal-list stagger" data-cycle>
         <li>
           <span class="halal-num">01</span>
           <div>
@@ -2917,6 +3171,46 @@
     entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('in'); });
   }, { threshold: 0.12 });
   document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+
+  // === Stagger reveal для внутренних карточек ===
+  const stagObs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('in');
+        stagObs.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.18, rootMargin: '0px 0px -60px 0px' });
+  document.querySelectorAll('.stagger').forEach(el => stagObs.observe(el));
+
+  // === Auto-cycle подсветки на touch-устройствах ===
+  // Наводки нет — циклически подсвечиваем элементы внутри секций в зоне видимости
+  const isTouch = window.matchMedia('(hover: none)').matches;
+  if (isTouch) {
+    const cycleGroups = document.querySelectorAll('[data-cycle]');
+    cycleGroups.forEach(group => {
+      const items = Array.from(group.children).filter(c => c.nodeType === 1);
+      if (!items.length) return;
+      let idx = 0;
+      let timer = null;
+      const start = () => {
+        if (timer) return;
+        timer = setInterval(() => {
+          items.forEach(it => it.classList.remove('lit'));
+          items[idx].classList.add('lit');
+          idx = (idx + 1) % items.length;
+        }, 2200);
+      };
+      const stop = () => {
+        if (timer) { clearInterval(timer); timer = null; }
+        items.forEach(it => it.classList.remove('lit'));
+      };
+      const visObs = new IntersectionObserver((entries) => {
+        entries.forEach(e => e.isIntersecting ? start() : stop());
+      }, { threshold: 0.25 });
+      visObs.observe(group);
+    });
+  }
 
   // === Счётчики ===
   const numEls = document.querySelectorAll('.stat-num[data-num]');
