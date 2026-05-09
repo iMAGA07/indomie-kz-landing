@@ -69,7 +69,7 @@ export default async function handler(req, res) {
     `🪪 <code>${escape(ip)}</code>`
   ].join('\n');
 
-  // ----- Параллельно: Telegram (обязательно) + Google Sheets (fire-and-forget) -----
+  // ----- Параллельно: Telegram (обязательно) + Google Sheets (best-effort) -----
   const telegramP = fetch(`https://api.telegram.org/bot${TOKEN}/sendMessage`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -81,34 +81,42 @@ export default async function handler(req, res) {
     })
   }).then(r => r.json());
 
-  // Google Sheets — необязательный канал, не блокирует ответ
   const SHEETS_URL = process.env.SHEETS_WEBHOOK_URL;
   const SHEETS_SECRET = process.env.SHEETS_SECRET;
-  if (SHEETS_URL && SHEETS_SECRET) {
-    fetch(SHEETS_URL, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        secret: SHEETS_SECRET,
-        name, company, region, phone, volume,
-        source, ip
-      }),
-      redirect: 'follow'
-    }).then(async r => {
-      const t = await r.text().catch(() => '');
-      console.log('Sheets response:', r.status, t.slice(0, 200));
-    }).catch(e => {
-      console.error('Sheets error:', e);
-    });
-  }
+  const sheetsP = (SHEETS_URL && SHEETS_SECRET)
+    ? fetch(SHEETS_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          secret: SHEETS_SECRET,
+          name, company, region, phone, volume, source, ip
+        }),
+        redirect: 'follow'
+      }).then(async r => {
+        const t = await r.text().catch(() => '');
+        console.log('Sheets response:', r.status, t.slice(0, 200));
+        return r.ok;
+      }).catch(e => {
+        console.error('Sheets error:', e);
+        return false;
+      })
+    : Promise.resolve(null);
 
-  // ----- Ждём только Telegram -----
+  // ----- Ждём ОБА (важно: иначе Vercel убьёт функцию до завершения Sheets) -----
   try {
-    const data = await telegramP;
-    if (!data.ok) {
-      console.error('Telegram error:', data);
+    const [tgResult, sheetsResult] = await Promise.allSettled([telegramP, sheetsP]);
+
+    // Telegram — критичный канал, без него считаем заявку упавшей
+    if (tgResult.status !== 'fulfilled' || !tgResult.value || !tgResult.value.ok) {
+      console.error('Telegram error:', tgResult);
       return res.status(502).json({ ok: false, error: 'Telegram delivery failed' });
     }
+
+    // Sheets — некритичный канал, логируем но не валим запрос
+    if (sheetsResult.status !== 'fulfilled' || sheetsResult.value === false) {
+      console.warn('Sheets failed (non-blocking):', sheetsResult);
+    }
+
     return res.status(200).json({ ok: true });
   } catch (e) {
     console.error('submit error:', e);
