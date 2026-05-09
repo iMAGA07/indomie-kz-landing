@@ -2984,7 +2984,10 @@
         <span><em>Заявка</em> · 02-26 / KZ</span>
         <span>* — обязательно</span>
       </div>
-      <form id="partnerForm">
+      <form id="partnerForm" novalidate>
+        <!-- Honeypot для ботов: настоящие пользователи это поле не видят -->
+        <input type="text" id="website" name="website" tabindex="-1" autocomplete="off"
+               style="position:absolute; left:-9999px; width:1px; height:1px; opacity:0;" aria-hidden="true">
         <div class="form-row">
           <div class="form-field">
             <label for="name">Имя *</label>
@@ -3318,16 +3321,60 @@
   }
 
   // === Форма ===
-  document.getElementById('partnerForm').addEventListener('submit', (e) => {
+  document.getElementById('partnerForm').addEventListener('submit', async (e) => {
     e.preventDefault();
-    const btn = e.target.querySelector('.form-submit');
-    btn.innerHTML = '<span>✓ Заявка отправлена. Свяжемся в течение 2 часов</span>';
-    btn.style.background = '#28a76b';
-    setTimeout(() => {
-      e.target.reset();
-      btn.innerHTML = '<span>Получить условия партнёрства</span><span class="btn-arrow" style="background:var(--bg); color: var(--ink);">↗</span>';
-      btn.style.background = '';
-    }, 4000);
+    const form = e.target;
+    const btn = form.querySelector('.form-submit');
+    const origHTML = btn.innerHTML;
+
+    const payload = {
+      name:    form.querySelector('#name').value.trim(),
+      company: form.querySelector('#company').value.trim(),
+      region:  form.querySelector('#region').value,
+      phone:   form.querySelector('#phone').value.trim(),
+      volume:  form.querySelector('#volume').value,
+      website: form.querySelector('#website')?.value || '',
+      source:  location.hostname || 'indomie.kz'
+    };
+
+    btn.disabled = true;
+    btn.innerHTML = '<span>Отправляем…</span>';
+
+    try {
+      const r = await fetch('/api/submit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+      const data = await r.json().catch(() => ({}));
+
+      if (r.ok && data.ok) {
+        btn.innerHTML = '<span>✓ Заявка отправлена. Свяжемся в течение 2 часов</span>';
+        btn.style.background = '#28a76b';
+        setTimeout(() => {
+          form.reset();
+          btn.innerHTML = origHTML;
+          btn.style.background = '';
+          btn.disabled = false;
+        }, 4500);
+      } else {
+        btn.innerHTML = '<span>✕ ' + (data.error || 'Ошибка. Попробуйте ещё раз') + '</span>';
+        btn.style.background = '#d63a3a';
+        setTimeout(() => {
+          btn.innerHTML = origHTML;
+          btn.style.background = '';
+          btn.disabled = false;
+        }, 3500);
+      }
+    } catch (err) {
+      btn.innerHTML = '<span>✕ Нет соединения</span>';
+      btn.style.background = '#d63a3a';
+      setTimeout(() => {
+        btn.innerHTML = origHTML;
+        btn.style.background = '';
+        btn.disabled = false;
+      }, 3500);
+    }
   });
 
   document.querySelectorAll('input, select').forEach(inp => {
