@@ -82,6 +82,18 @@
         "@type": "Country",
         "name": "Kazakhstan"
       },
+      "contactPoint": [
+        {
+          "@type": "ContactPoint",
+          "telephone": "+7-701-581-02-23",
+          "contactType": "sales",
+          "email": "partners@indomie.kz",
+          "areaServed": "KZ",
+          "availableLanguage": ["ru", "kk", "en"]
+        }
+      ],
+      "telephone": "+7-701-581-02-23",
+      "email": "partners@indomie.kz",
       "parentOrganization": {
         "@type": "Organization",
         "name": "Indofood / Pinehill Arabia Food Limited (PAFL)"
@@ -323,6 +335,34 @@
   .nav-links a:hover::before { right: 0; }
 
   .nav-right { display: flex; align-items: center; gap: 14px; }
+  .nav-phone {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 7px 14px 7px 12px;
+    border: 1px solid var(--line);
+    border-radius: 100px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--ink);
+    background: var(--paper);
+    text-decoration: none;
+    transition: all .25s;
+    letter-spacing: -0.01em;
+  }
+  .nav-phone::before {
+    content: '';
+    width: 8px; height: 8px;
+    background: var(--red);
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .nav-phone:hover {
+    background: var(--red);
+    border-color: var(--red);
+    color: white;
+  }
+  .nav-phone:hover::before { background: white; }
   .nav-status {
     display: inline-flex;
     align-items: center;
@@ -568,6 +608,55 @@
     opacity: 0.85;
   }
   .btn-ghost:hover { background: var(--ink); color: var(--bg); opacity: 1; }
+
+  .hero-phone-row {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 36px;
+    flex-wrap: wrap;
+  }
+  .hero-phone-label {
+    font-size: 13px;
+    color: var(--muted);
+    font-weight: 500;
+  }
+  .hero-phone-link {
+    font-family: 'Manrope', sans-serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--ink);
+    text-decoration: none;
+    letter-spacing: -0.01em;
+    transition: color .2s;
+    border-bottom: 2px solid transparent;
+    padding-bottom: 2px;
+  }
+  .hero-phone-link:hover {
+    color: var(--red);
+    border-bottom-color: var(--red);
+  }
+  .hero-phone-channels {
+    display: inline-flex;
+    gap: 6px;
+  }
+  .hero-phone-channels a {
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    border: 1px solid var(--line);
+    background: var(--paper);
+    color: var(--ink);
+    text-decoration: none;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: all .25s;
+  }
+  .hero-phone-channels a[title="WhatsApp"]:hover { background: #25d366; border-color: #25d366; color: white; }
+  .hero-phone-channels a[title="Telegram"]:hover { background: #229ed9; border-color: #229ed9; color: white; }
 
   .hero-trustbar {
     display: flex;
@@ -1981,6 +2070,70 @@
     margin-bottom: 36px;
     max-width: 460px;
   }
+  .contact-direct {
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    padding: 22px 24px;
+    margin: 28px 0 36px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.04);
+  }
+  .cd-label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 10px;
+  }
+  .cd-phone {
+    display: inline-block;
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--ink);
+    text-decoration: none;
+    letter-spacing: -0.015em;
+    margin-bottom: 14px;
+    border-bottom: 2px solid transparent;
+    padding-bottom: 2px;
+    transition: all .25s;
+  }
+  .cd-phone:hover {
+    color: var(--red);
+    border-bottom-color: var(--red);
+  }
+  .cd-channels {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .cd-ch {
+    padding: 8px 14px;
+    border-radius: 100px;
+    border: 1px solid var(--line);
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--ink);
+    text-decoration: none;
+    background: var(--bg);
+    transition: all .25s;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .cd-ch::before {
+    content: '';
+    width: 8px; height: 8px;
+    border-radius: 50%;
+  }
+  .cd-ch.wa::before   { background: #25d366; }
+  .cd-ch.tg::before   { background: #229ed9; }
+  .cd-ch.mail::before { background: var(--red); }
+  .cd-ch.wa:hover   { background: #25d366; border-color: #25d366; color: white; }
+  .cd-ch.tg:hover   { background: #229ed9; border-color: #229ed9; color: white; }
+  .cd-ch.mail:hover { background: var(--red); border-color: var(--red); color: white; }
+  .cd-ch:hover::before { background: white; }
+
   .promise {
     border-top: 1px solid var(--line);
   }
@@ -2233,7 +2386,7 @@
     button, input, select, a, .magnetic { cursor: pointer !important; }
 
     nav { padding: 14px 20px; }
-    .nav-tag, .nav-divider, .nav-status { display: none; }
+    .nav-tag, .nav-divider, .nav-status, .nav-phone { display: none; }
     .nav-links { display: none; }
     .nav-cta { padding: 10px 18px; font-size: 12px; }
     .nav-logo { height: 26px; }
@@ -2544,6 +2697,7 @@
     <a href="#contact">Заявка</a>
   </div>
   <div class="nav-right">
+    <a href="tel:+77015810223" class="nav-phone">+7&nbsp;701&nbsp;581&nbsp;02&nbsp;23</a>
     <div class="nav-status">
       <span class="nav-status-dot"></span>
       Набор открыт
@@ -2576,6 +2730,15 @@
         <span class="btn-arrow">↗</span>
       </a>
       <a href="#brand" class="btn btn-ghost magnetic">Узнать о&nbsp;продукте</a>
+    </div>
+
+    <div class="hero-phone-row">
+      <span class="hero-phone-label">или сразу позвонить:</span>
+      <a href="tel:+77015810223" class="hero-phone-link">+7&nbsp;701&nbsp;581&nbsp;02&nbsp;23</a>
+      <span class="hero-phone-channels">
+        <a href="https://wa.me/77015810223" target="_blank" rel="noopener" title="WhatsApp">WA</a>
+        <a href="https://t.me/+77015810223" target="_blank" rel="noopener" title="Telegram">TG</a>
+      </span>
     </div>
 
     <div class="hero-trustbar">
@@ -3120,6 +3283,16 @@
       </h2>
       <p>Заполните короткую форму. Менеджер программы свяжется с&nbsp;вами лично, отправит коммерческие условия, прайс-лист и&nbsp;ответит на&nbsp;все&nbsp;вопросы.</p>
 
+      <div class="contact-direct">
+        <div class="cd-label">Или напишите / позвоните напрямую</div>
+        <a href="tel:+77015810223" class="cd-phone">+7&nbsp;701&nbsp;581&nbsp;02&nbsp;23</a>
+        <div class="cd-channels">
+          <a href="https://wa.me/77015810223" target="_blank" rel="noopener" class="cd-ch wa">WhatsApp</a>
+          <a href="https://t.me/+77015810223" target="_blank" rel="noopener" class="cd-ch tg">Telegram</a>
+          <a href="mailto:partners@indomie.kz" class="cd-ch mail">partners@indomie.kz</a>
+        </div>
+      </div>
+
       <div class="promise">
         <div class="promise-row"><span class="promise-num">i</span><span>Ответим в&nbsp;течение <strong>2&nbsp;часов</strong> в&nbsp;рабочее время</span></div>
         <div class="promise-row"><span class="promise-num">ii</span><span>Конфиденциальность гарантирована соглашением о&nbsp;NDA</span></div>
@@ -3175,7 +3348,7 @@
           </div>
           <div class="form-field">
             <label for="phone">Телефон *</label>
-            <input type="tel" id="phone" required placeholder="+7 (___) ___-__-__">
+            <input type="tel" id="phone" required placeholder="+7 701 581 02 23">
           </div>
         </div>
         <div class="form-field">
@@ -3221,10 +3394,10 @@
     </div>
     <div class="footer-col">
       <h5>Контакты</h5>
-      <a href="tel:+77001234567">+7&nbsp;700&nbsp;123&nbsp;45&nbsp;67</a>
+      <a href="tel:+77015810223">+7&nbsp;701&nbsp;581&nbsp;02&nbsp;23</a>
       <a href="mailto:partners@indomie.kz">partners@indomie.kz</a>
-      <a href="#">Telegram · @indomie_kz</a>
-      <a href="#">WhatsApp</a>
+      <a href="https://wa.me/77015810223" target="_blank" rel="noopener">WhatsApp · +7&nbsp;701&nbsp;581&nbsp;02&nbsp;23</a>
+      <a href="https://t.me/+77015810223" target="_blank" rel="noopener">Telegram · +7&nbsp;701&nbsp;581&nbsp;02&nbsp;23</a>
     </div>
     <div class="footer-col">
       <h5>Юридическое</h5>
