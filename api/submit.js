@@ -69,19 +69,42 @@ export default async function handler(req, res) {
     `🪪 <code>${escape(ip)}</code>`
   ].join('\n');
 
-  // ----- Отправка в Telegram -----
-  try {
-    const tg = await fetch(`https://api.telegram.org/bot${TOKEN}/sendMessage`, {
+  // ----- Параллельно: Telegram (обязательно) + Google Sheets (fire-and-forget) -----
+  const telegramP = fetch(`https://api.telegram.org/bot${TOKEN}/sendMessage`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      chat_id: CHAT_ID,
+      text,
+      parse_mode: 'HTML',
+      disable_web_page_preview: true
+    })
+  }).then(r => r.json());
+
+  // Google Sheets — необязательный канал, не блокирует ответ
+  const SHEETS_URL = process.env.SHEETS_WEBHOOK_URL;
+  const SHEETS_SECRET = process.env.SHEETS_SECRET;
+  if (SHEETS_URL && SHEETS_SECRET) {
+    fetch(SHEETS_URL, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        chat_id: CHAT_ID,
-        text,
-        parse_mode: 'HTML',
-        disable_web_page_preview: true
-      })
+        secret: SHEETS_SECRET,
+        name, company, region, phone, volume,
+        source, ip
+      }),
+      redirect: 'follow'
+    }).then(async r => {
+      const t = await r.text().catch(() => '');
+      console.log('Sheets response:', r.status, t.slice(0, 200));
+    }).catch(e => {
+      console.error('Sheets error:', e);
     });
-    const data = await tg.json();
+  }
+
+  // ----- Ждём только Telegram -----
+  try {
+    const data = await telegramP;
     if (!data.ok) {
       console.error('Telegram error:', data);
       return res.status(502).json({ ok: false, error: 'Telegram delivery failed' });
